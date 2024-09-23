@@ -22,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
     password = await prefs.then((value) {
       return value.getString("Password");
     });
+    setState(() {});
   }
 
   @override
@@ -64,61 +65,64 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                
-                  onPressed: () async {
-                    
-                    final data = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SetPassword(),
-                      ),
-                    );
-                    if (data == "Call function") {
-                      getPassword();
-                    }
-                    passwordController.clear();
-                  },
-                  child: const Text(
-                    "Set Password",
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (password == null) {
-                      CustomSnackBar.showSnackBar(
-                          context, "Set Password First");
-                    } else if (password != passwordController.text) {
-                      CustomSnackBar.showSnackBar(
-                          context, "Password doesn't match");
-                    } else if (password == passwordController.text) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PasswordList(),
+                password == null
+                    ? ElevatedButton(
+                        onPressed: () async {
+                          final data = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SetPassword(),
+                            ),
+                          );
+                          if (data == "Call function") {
+                            getPassword();
+                          }
+                          passwordController.clear();
+                          setState(() {});
+                        },
+                        child: const Text(
+                          "Set Password",
                         ),
-                      );
-                      passwordController.clear();
-                    }
-                     
-                  },
-                  child: const Text(
-                    "OK",
-                  ),
-                ),
+                      )
+                    : ElevatedButton(
+                        onPressed: () {
+                          if (password == null) {
+                            CustomSnackBar.showSnackBar(
+                                context, "Set Password First");
+                          } else if (password != passwordController.text) {
+                            CustomSnackBar.showSnackBar(
+                                context, "Password doesn't match");
+                          } else if (password == passwordController.text) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PasswordList(),
+                              ),
+                            );
+
+                            passwordController.clear();
+                          }
+                        },
+                        child: const Text(
+                          "OK",
+                        ),
+                      ),
               ],
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (password == null) {
                   CustomSnackBar.showSnackBar(context, "Set Password First");
                 } else {
-                  Navigator.push(
+                  final data = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const UpdateMainPassword(),
                     ),
                   );
+                  if (data == "Call Function") {
+                    getPassword();
+                  }
                 }
               },
               child: const Text(
