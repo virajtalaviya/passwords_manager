@@ -1,21 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:password_save/enter_password.dart';
+import 'dart:io';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:password_manager/screens/splash_screen.dart';
+import 'package:password_manager/utils/preference_utils.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+void main() async {
+  if (Platform.isWindows) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  await PreferenceUtils.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const MyHomePage(),
+      home: SplashScreen(),
     );
   }
 }
