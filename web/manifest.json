@@ -1,6 +1,6 @@
 {
-    "name": "password_save",
-    "short_name": "password_save",
+    "name": "password_manager",
+    "short_name": "password_manager",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
